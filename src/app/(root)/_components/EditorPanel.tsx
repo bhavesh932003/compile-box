@@ -15,7 +15,7 @@ import ShareSnippetDialog from "./ShareSnippetDialog";
 function EditorPanel() {
   const clerk = useClerk();
   const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
-  const { language, theme, fontSize, editor, setFontSize, setEditor, inputData, setInputData } = useCodeEditorStore();
+  const { language, theme, fontSize, editor, setFontSize, setEditor, setInputData } = useCodeEditorStore();
 
   const mounted = useMounted();
 
@@ -45,11 +45,6 @@ function EditorPanel() {
 
   const handleEditorChange = (value: string | undefined) => {
     if (value) localStorage.setItem(`editor-code-${language}`, value);
-  };
-
-  const handleInputDataChange = (value: string) => {
-    setInputData(value);
-    localStorage.setItem(`input-data-${language}`, value);  // Save input data
   };
 
   const handleFontSizeChange = (newSize: number) => {
