@@ -9,11 +9,13 @@ import { api } from "../../../../convex/_generated/api";
 
 function RunButton() {
   const { user } = useUser();
-  const { runCode, language, isRunning } = useCodeEditorStore();
+  const { runCode, language, isRunning, inputData } = useCodeEditorStore();
   const saveExecution = useMutation(api.codeExecutions.saveExecution);
 
   const handleRun = async () => {
+    // Pass the input data when running the code
     await runCode();
+
     const result = getExecutionResult();
 
     if (user && result) {
@@ -38,7 +40,6 @@ function RunButton() {
         focus:outline-none
       `}
     >
-      {/* bg wit gradient */}
       <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-500 rounded-xl opacity-100 transition-opacity group-hover:opacity-90" />
 
       <div className="relative flex items-center gap-2.5">
@@ -64,4 +65,5 @@ function RunButton() {
     </motion.button>
   );
 }
+
 export default RunButton;

@@ -6,7 +6,7 @@ import { useState } from "react";
 import RunningCodeSkeleton from "./RunningCodeSkeleton";
 
 function OutputPanel() {
-  const { output, error, isRunning } = useCodeEditorStore();
+  const { output, error, isRunning, inputData } = useCodeEditorStore();
   const [isCopied, setIsCopied] = useState(false);
 
   const hasContent = error || output;
@@ -20,7 +20,7 @@ function OutputPanel() {
   };
 
   return (
-    <div className="relative bg-[#181825] rounded-xl p-4 ring-1 ring-gray-800/50">
+    <div className="relative bg-[#181825] rounded-xl p-4 ring-1 ring-gray-800/50 h-[343px]">
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
@@ -55,7 +55,7 @@ function OutputPanel() {
       <div className="relative">
         <div
           className="relative bg-[#1e1e2e]/50 backdrop-blur-sm border border-[#313244] 
-        rounded-xl p-4 h-[600px] overflow-auto font-mono text-sm"
+        rounded-xl p-4 h-[267px] overflow-auto font-mono text-sm"
         >
           {isRunning ? (
             <RunningCodeSkeleton />
@@ -80,7 +80,9 @@ function OutputPanel() {
               <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gray-800/50 ring-1 ring-gray-700/50 mb-4">
                 <Clock className="w-6 h-6" />
               </div>
-              <p className="text-center">Run your code to see the output here...</p>
+              <p className="text-center">
+                Provide input and run your code to see the output here...
+              </p>
             </div>
           )}
         </div>

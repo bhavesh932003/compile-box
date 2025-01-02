@@ -1,4 +1,5 @@
 "use client";
+
 import { useCodeEditorStore } from "@/store/useCodeEditorStore";
 import { useEffect, useState } from "react";
 import { defineMonacoThemes, LANGUAGE_CONFIG } from "../_constants";
@@ -14,7 +15,7 @@ import ShareSnippetDialog from "./ShareSnippetDialog";
 function EditorPanel() {
   const clerk = useClerk();
   const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
-  const { language, theme, fontSize, editor, setFontSize, setEditor } = useCodeEditorStore();
+  const { language, theme, fontSize, editor, setFontSize, setEditor, inputData, setInputData } = useCodeEditorStore();
 
   const mounted = useMounted();
 
@@ -29,14 +30,26 @@ function EditorPanel() {
     if (savedFontSize) setFontSize(parseInt(savedFontSize));
   }, [setFontSize]);
 
+  useEffect(() => {
+    const savedInputData = localStorage.getItem(`input-data-${language}`);
+    if (savedInputData) setInputData(savedInputData);  // Set saved input data if it exists
+  }, [setInputData, language]);
+
   const handleRefresh = () => {
     const defaultCode = LANGUAGE_CONFIG[language].defaultCode;
     if (editor) editor.setValue(defaultCode);
+    setInputData(""); // Clear the input data when refreshing the editor
     localStorage.removeItem(`editor-code-${language}`);
+    localStorage.removeItem(`input-data-${language}`);
   };
 
   const handleEditorChange = (value: string | undefined) => {
     if (value) localStorage.setItem(`editor-code-${language}`, value);
+  };
+
+  const handleInputDataChange = (value: string) => {
+    setInputData(value);
+    localStorage.setItem(`input-data-${language}`, value);  // Save input data
   };
 
   const handleFontSizeChange = (newSize: number) => {
@@ -99,43 +112,46 @@ function EditorPanel() {
                from-blue-500 to-blue-600 opacity-90 hover:opacity-100 transition-opacity"
             >
               <ShareIcon className="size-4 text-white" />
-              <span className="text-sm font-medium text-white ">Share</span>
+              <span className="text-sm font-medium text-white">Share</span>
             </motion.button>
           </div>
         </div>
 
-        {/* Editor  */}
+        {/* Editor */}
         <div className="relative group rounded-xl overflow-hidden ring-1 ring-white/[0.05]">
           {clerk.loaded && (
-            <Editor
-              height="600px"
-              language={LANGUAGE_CONFIG[language].monacoLanguage}
-              onChange={handleEditorChange}
-              theme={theme}
-              beforeMount={defineMonacoThemes}
-              onMount={(editor) => setEditor(editor)}
-              options={{
-                minimap: { enabled: false },
-                fontSize,
-                automaticLayout: true,
-                scrollBeyondLastLine: false,
-                padding: { top: 16, bottom: 16 },
-                renderWhitespace: "selection",
-                fontFamily: '"Fira Code", "Cascadia Code", Consolas, monospace',
-                fontLigatures: true,
-                cursorBlinking: "smooth",
-                smoothScrolling: true,
-                contextmenu: true,
-                renderLineHighlight: "all",
-                lineHeight: 1.6,
-                letterSpacing: 0.5,
-                roundedSelection: true,
-                scrollbar: {
-                  verticalScrollbarSize: 8,
-                  horizontalScrollbarSize: 8,
-                },
-              }}
-            />
+            <>
+              {/* Editor for writing code */}
+              <Editor
+                height="600px"
+                language={LANGUAGE_CONFIG[language].monacoLanguage}
+                onChange={handleEditorChange}
+                theme={theme}
+                beforeMount={defineMonacoThemes}
+                onMount={(editor) => setEditor(editor)}
+                options={{
+                  minimap: { enabled: false },
+                  fontSize,
+                  automaticLayout: true,
+                  scrollBeyondLastLine: false,
+                  padding: { top: 16, bottom: 16 },
+                  renderWhitespace: "selection",
+                  fontFamily: '"Fira Code", "Cascadia Code", Consolas, monospace',
+                  fontLigatures: true,
+                  cursorBlinking: "smooth",
+                  smoothScrolling: true,
+                  contextmenu: true,
+                  renderLineHighlight: "all",
+                  lineHeight: 1.6,
+                  letterSpacing: 0.5,
+                  roundedSelection: true,
+                  scrollbar: {
+                    verticalScrollbarSize: 8,
+                    horizontalScrollbarSize: 8,
+                  },
+                }}
+              />       
+            </>
           )}
 
           {!clerk.loaded && <EditorPanelSkeleton />}
@@ -145,5 +161,5 @@ function EditorPanel() {
     </div>
   );
 }
-export default EditorPanel;
 
+export default EditorPanel;
