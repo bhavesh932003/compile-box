@@ -1,9 +1,9 @@
-import HeaderProfileBtn from "@/app/(root)/_components/HeaderProfileBtn";
-import { SignedOut } from "@clerk/nextjs";
+
 import { Blocks, Code2, Sparkles } from "lucide-react";
 import Link from "next/link";
+import GetStartedButtonNew from "./GetStartedButtonNew";
 
-function NavigationHeader() {
+function NavigationHeaderNew() {
   return (
     <div className="sticky top-0 z-50 w-full border-b border-gray-800/50 bg-gray-950/80 backdrop-blur-xl backdrop-saturate-150">
       <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5" />
@@ -11,7 +11,7 @@ function NavigationHeader() {
         <div className="relative h-16 flex items-center justify-between">
           <div className="flex items-center gap-8">
             {/* Logo */}
-            <Link href="/home" className="flex items-center gap-3 group relative">
+            <Link href="/" className="flex items-center gap-3 group relative">
               {/* logo hover effect */}
               <div
                 className="absolute -inset-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-lg opacity-0 
@@ -55,23 +55,7 @@ function NavigationHeader() {
 
           {/* right rection */}
           <div className="flex items-center gap-4">
-            <SignedOut>
-              <Link
-                href="/pricing"
-                className="flex items-center gap-2 px-4 py-1.5 rounded-lg border border-amber-500/20
-                 hover:border-amber-500/40 bg-gradient-to-r from-amber-500/10 
-                to-orange-500/10 hover:from-amber-500/20 hover:to-orange-500/20 transition-all 
-                duration-300"
-              >
-                <Sparkles className="w-4 h-4 text-amber-400 hover:text-amber-300" />
-                <span className="text-sm font-medium text-amber-400/90 hover:text-amber-300">
-                  Pro
-                </span>
-              </Link>
-            </SignedOut>
-
-            {/* profile button */}
-            <HeaderProfileBtn />
+            <GetStartedButtonNew/>
           </div>
         </div>
       </div>
@@ -79,4 +63,4 @@ function NavigationHeader() {
   );
 }
 
-export default NavigationHeader;
+export default NavigationHeaderNew;

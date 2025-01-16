@@ -1,16 +1,17 @@
-import NavigationHeader from "@/components/NavigationHeader";
+
 import { ENTERPRISE_FEATURES, FEATURES } from "./_constants";
 import { Star } from "lucide-react";
 import FeatureCategory from "./_components/FeatureCategory";
 import FeatureItem from "./_components/FeatureItem";
 import GetStartedButton from "./_components/GetStartedButton";
+import NavigationHeaderNew from "./_components/NavigationHeaderNew";
 
 function CompileBoxLandingPage() {
   return (
     <div
       className="relative min-h-screen bg-[#0a0a0f] selection:bg-blue-500/20 selection:text-blue-200"
     >
-      <NavigationHeader />
+      <NavigationHeaderNew/>
 
       {/* Main Content */}
       <main className="relative pt-32 pb-24 px-4">
